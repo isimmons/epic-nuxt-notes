@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-center">
+  <div class="container text-center mt-36">
     <h1 class="my-8 text-h1">Epic Notes</h1>
     <p>
       <span
@@ -28,9 +28,3 @@
     <NuxtLink to="users/kody">Kodi</NuxtLink>
   </div>
 </template>
-
-<script setup type="ts">
-definePageMeta({
-  layout: "home",
-});
-</script>

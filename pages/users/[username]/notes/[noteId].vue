@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-12 border-8 border-red-500">
+  <div>
     <h2 class="text-h2">{{ params.noteId }}</h2>
   </div>
 </template>
@@ -12,7 +12,10 @@ const props = defineProps<{
   sayGoodbye: () => void;
 }>();
 
-props.sayHello();
+
+onMounted(() => {
+  props.sayHello();
+})
 
 onBeforeUnmount(() => {
   props.sayGoodbye();
