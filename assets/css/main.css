@@ -88,6 +88,6 @@
   }
 }
 
-/* #__nuxt {
-  @apply h-screen;
-} */
+#__nuxt {
+  @apply h-full;
+}
