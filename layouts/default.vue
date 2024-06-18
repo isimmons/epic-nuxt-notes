@@ -27,7 +27,11 @@ useHead({
     </nav>
   </header>
 
-  <div class="flex-1 h-[calc(100vh-244px)]"><slot /></div>
+  
+  <div class="container absolute">
+    <slot />
+  </div>
+  
 
   <div class="container absolute bottom-0 flex justify-between mx-auto">
     <NuxtLink to="/">
