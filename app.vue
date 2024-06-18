@@ -1,5 +1,10 @@
 <template>
   <NuxtLayout>
+  <Head>
+    <Title>foobar</Title>
+    <Meta name="description" content="fochizzle" />
+    <Link rel="icon" type="image/svg+xml" :href="favicon" sizes="any" />
+  </Head>
     <NuxtPage />
   </NuxtLayout>
 </template>
@@ -8,7 +13,6 @@
 import favicon from "~/assets/favicon.svg";
 
 useHead({
-  link: [{ rel: "icon", type: "image/svg+xml", href: favicon }],
   bodyAttrs: {
     class: "flex h-screen flex-col justify-between bg-background text-foreground",
   },
