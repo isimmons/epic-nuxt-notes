@@ -17,9 +17,12 @@ useHead({
     <Meta name="description" content="fochizzle" />
     <Link rel="icon" type="image/svg+xml" :href="favicon" sizes="any" />
   </Head>
-  
-  <div id="content" class="flex h-full flex-col justify-between bg-background text-foreground">
-    <header class="container py-6 mx-auto">
+
+  <div
+    id="content"
+    class="flex h-full flex-col justify-between bg-background text-foreground"
+  >
+    <header class="container mx-auto py-6">
       <nav class="flex justify-between">
         <NuxtLink to="/">
           <div class="font-light">epic</div>
@@ -28,13 +31,11 @@ useHead({
       </nav>
     </header>
 
-    
-    <div class="flex-1 container">
+    <div class="container flex-1">
       <slot />
     </div>
-    
 
-    <div class="container flex justify-between mx-auto">
+    <div class="container mx-auto flex justify-between">
       <NuxtLink to="/">
         <div class="font-light">epic</div>
         <div class="font-bold">notes</div>

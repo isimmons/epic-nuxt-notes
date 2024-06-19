@@ -12,10 +12,9 @@ const props = defineProps<{
   sayGoodbye: () => void;
 }>();
 
-
 onMounted(() => {
   props.sayHello();
-})
+});
 
 onBeforeUnmount(() => {
   props.sayGoodbye();

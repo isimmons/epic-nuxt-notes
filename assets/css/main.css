@@ -89,5 +89,5 @@
 }
 
 #__nuxt {
-  @apply h-full
+  @apply h-full;
 }

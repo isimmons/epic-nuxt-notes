@@ -22,10 +22,10 @@
       </ul>
     </div>
 
-    <div class="container pt-12 border-8 border-purple-500">
+    <div class="container border-8 border-purple-500 pt-12">
       <!-- default content -->
       <!-- shows only if not showing a page (default for the /notes route )-->
-      <div v-if="isDefault" >
+      <div v-if="isDefault">
         <p class="text-body-md">Select a note</p>
       </div>
 

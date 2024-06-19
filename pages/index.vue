@@ -1,14 +1,14 @@
 <template>
-  <div class="text-center mt-36">
+  <div class="mt-36 text-center">
     <h1 class="my-8 text-h1">Epic Notes</h1>
     <p>
       <span
-        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#00DC82] text-body-lg text-muted-foreground"
+        class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00DC82] px-8 py-4 text-body-lg text-muted-foreground"
       >
         <span>Tore up from the floor up</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="inline w-6 h-6"
+          class="inline h-6 w-6"
           fill="none"
           viewBox="0 0 65 65"
         >
