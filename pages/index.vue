@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-center mt-36">
+  <div class="text-center mt-36">
     <h1 class="my-8 text-h1">Epic Notes</h1>
     <p>
       <span

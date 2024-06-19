@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-grow justify-between h-[calc(100vh-148px)] pb-12 border-8 border-blue-500">
+  <div class="flex justify-between border-8 border-blue-500">
     <div>
       <h1 class="text-h1">{{ params.username }} Notes</h1>
 
