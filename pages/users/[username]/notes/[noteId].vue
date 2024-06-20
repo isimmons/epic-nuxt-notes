@@ -6,17 +6,4 @@
 
 <script setup lang="ts">
 const { params } = useRoute();
-
-const props = defineProps<{
-  sayHello: () => void;
-  sayGoodbye: () => void;
-}>();
-
-onMounted(() => {
-  props.sayHello();
-});
-
-onBeforeUnmount(() => {
-  props.sayGoodbye();
-});
 </script>
