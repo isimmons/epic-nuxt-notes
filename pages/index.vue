@@ -1,6 +1,6 @@
 <template>
   <div class="mt-36 text-center">
-    <h1 class="my-8 text-h1">Epic Notes</h1>
+    <h1 class="my-8 text-h1">Epic Nuxt Notes</h1>
     <p>
       <span
         class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00DC82] px-8 py-4 text-body-lg text-muted-foreground"
