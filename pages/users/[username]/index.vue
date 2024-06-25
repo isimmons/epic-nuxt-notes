@@ -1,19 +1,19 @@
 <template>
   <div class="mt-36">
-    <h1 class="text-h1">{{ data.user.name ?? data.user.username }}</h1>
-    <NuxtLink :to="`/users/${data.user.username}/notes`">Notes</NuxtLink>
+    <h1 class="text-h1">{{ user.name ?? user.username }}</h1>
+    <NuxtLink :to="`/users/${user.username}/notes`">Notes</NuxtLink>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { db } from '~/utils/db.server';
-import { invariantResponse } from '~/utils/misc';
 
 const {
   params: { username },
 } = useRoute();
 
-invariantResponse(typeof username === 'string');
+if (typeof username !== 'string')
+  throw createError({ statusCode: 404, statusMessage: 'User not found' });
 
 const getUser = async (username: string) => {
   const user = db.user.findFirst({
@@ -22,16 +22,20 @@ const getUser = async (username: string) => {
     },
   });
 
-  invariantResponse(user !== null);
+  if (!user)
+    throw createError({ statusCode: 404, statusMessage: 'User not found' });
 
   return {
-    user: {
-      username: user.username,
-      email: user.email,
-      name: user.name,
-    },
+    username: user.username,
+    email: user.email,
+    name: user.name,
   };
 };
 
 const { data } = await useAsyncData(() => getUser(username));
+
+if (!data.value)
+  throw createError({ statusCode: 404, statusMessage: 'User not found' });
+
+const user = data.value;
 </script>
