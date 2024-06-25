@@ -40,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import type { NuxtError } from '#app';
+
 const navLinkDefaultClassName =
   'line-clamp-2 block rounded-l-full py-2 pl-8 pr-6 text-base lg:text-xl';
 
@@ -49,44 +51,50 @@ const {
 
 if (typeof username !== 'string')
   throw createError({
-    statusCode: 404,
-    statusMessage: 'User not found.',
+    statusCode: 400,
+    statusMessage: 'Invalid username in request URL.',
   });
 
-const getNotes = async (username: string) => {
-  const owner = db.user.findFirst({
-    where: {
-      username: { equals: username },
-    },
-  });
-
-  if (!owner)
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'User not found.',
-    });
-
-  const notes = db.note.findMany({
-    where: {
-      owner: {
-        username: { equals: username },
-      },
-    },
-  });
-
-  return {
-    owner: { name: owner.name, username: owner.username },
-    notes: notes.map((note) => ({ id: note.id, title: note.title })),
+type UserNotes = {
+  owner: {
+    name: string | null;
+    username: string;
   };
+  notes: {
+    id: string;
+    title: string;
+  }[];
 };
 
-const { data } = await useAsyncData(() => getNotes(username));
+const { data, error }: { data: Ref<UserNotes>; error: Ref<NuxtError | null> } =
+  await useAsyncData(`user.${username}.notes`, async () => {
+    const owner = db.user.findFirst({
+      where: {
+        username: { equals: username },
+      },
+    });
 
-if (!data.value)
-  throw createError({
-    statusCode: 400,
-    statusMessage: 'Problem retrieving user notes.',
+    if (!owner)
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'User not found.',
+      });
+
+    const notes = db.note.findMany({
+      where: {
+        owner: {
+          username: { equals: username },
+        },
+      },
+    });
+
+    return {
+      owner: { name: owner.name, username: owner.username },
+      notes: notes.map((note) => ({ id: note.id, title: note.title })),
+    };
   });
+
+if (error.value) throw createError(error.value);
 
 const { owner, notes } = data.value;
 </script>
