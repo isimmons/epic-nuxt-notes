@@ -1,12 +1,28 @@
 <template>
-  <div class="absolute inset-0 flex flex-col px-10">
-    <h2 class="mb-2 pt-12 text-h2 lg:mb-6">{{ note.title }}</h2>
-    <div class="overflow-y-auto px-3 pb-24">
-      <p class="whitespace-break-spaces text-sm md:text-lg">
-        {{ note.content }}
-      </p>
+  <form
+    method="POST"
+    class="flex h-full flex-col gap-y-4 overflow-x-hidden px-10 pb-28 pt-12"
+  >
+    <div class="flex flex-col gap-1">
+      <div>
+        <UiLabel for="title">Title</UiLabel>
+        <UiInput name="title" id="title" :default-value="note.title" />
+      </div>
+      <div>
+        <UiLabel for="content">Content</UiLabel>
+        <UiTextarea
+          name="content"
+          id="content"
+          :default-value="note.content"
+          class="min-h-[400px]"
+        />
+      </div>
     </div>
-  </div>
+    <FloatingToolbar>
+      <UiButton type="reset" variant="destructive">Reset</UiButton>
+      <UiButton type="submit">Submit</UiButton>
+    </FloatingToolbar>
+  </form>
 </template>
 
 <script setup lang="ts">

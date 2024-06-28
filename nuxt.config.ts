@@ -14,4 +14,9 @@ export default defineNuxtConfig({
       global: {},
     },
   },
+  modules: ['shadcn-nuxt'],
+  shadcn: {
+    prefix: 'Ui',
+    componentDir: './components/ui',
+  },
 });

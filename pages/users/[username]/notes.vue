@@ -17,10 +17,10 @@
           </NuxtLink>
 
           <ul
-            v-if="notes.length > 0"
+            v-if="data && data.notes.length > 0"
             class="overflow-y-auto overflow-x-hidden pb-12"
           >
-            <li v-for="note in notes" :key="note.id">
+            <li v-for="note in data.notes" :key="note.id">
               <NuxtLink
                 :to="`/users/${owner.username}/notes/${note.id}`"
                 :class="navLinkDefaultClassName"
@@ -33,14 +33,17 @@
       </div>
 
       <div class="relative col-span-3 bg-accent md:rounded-r-3xl">
-        <NuxtPage />
+        <NuxtPage
+          @note-deleted="handleDeleteNote($event)"
+          @deleted-note-unmounted="() => refreshNuxtData()"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from '#app';
+import { assertNotNot } from '~/utils/misc';
 
 const navLinkDefaultClassName =
   'line-clamp-2 block rounded-l-full py-2 pl-8 pr-6 text-base lg:text-xl';
@@ -66,35 +69,64 @@ type UserNotes = {
   }[];
 };
 
-const { data, error }: { data: Ref<UserNotes>; error: Ref<NuxtError | null> } =
-  await useAsyncData(`user.${username}.notes`, async () => {
-    const owner = db.user.findFirst({
-      where: {
-        username: { equals: username },
-      },
+// const { data, error } = await useAsyncData(
+//   `user.${username}.notes`,
+//   async () => {
+//     const owner = db.user.findFirst({
+//       where: {
+//         username: { equals: username },
+//       },
+//     });
+
+//     if (!owner)
+//       throw createError({
+//         statusCode: 404,
+//         statusMessage: 'User not found.',
+//       });
+
+//     const notes = db.note.findMany({
+//       where: {
+//         owner: {
+//           username: { equals: username },
+//         },
+//       },
+//     });
+
+//     return {
+//       owner: { name: owner.name, username: owner.username },
+//       notes: notes.map((note) => ({ id: note.id, title: note.title })),
+//     };
+//   },
+// );
+
+// const { data } = await useFetch<UserNotes>('/api/notes', {
+//   method: 'GET',
+// });
+
+const { data } = await useAsyncData(`user.${username}.notes`, () =>
+  $fetch('/api/notes'),
+);
+
+assertNotNot(data.value);
+const owner = data.value.owner;
+// const notes = data.value.notes;
+
+const handleDeleteNote = async (noteId: string) => {
+  try {
+    await $fetch(`/api/notes/${noteId}`, {
+      method: 'DELETE',
     });
 
-    if (!owner)
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'User not found.',
-      });
+    console.log('Note deleted successfully');
 
-    const notes = db.note.findMany({
-      where: {
-        owner: {
-          username: { equals: username },
-        },
-      },
+    await navigateTo(`/users/${username}/notes`);
+  } catch (error) {
+    const errorMessage = `Failed to delete todo: ${error}`;
+    console.error(errorMessage);
+    throw createError({
+      statusCode: 500,
+      statusMessage: errorMessage,
     });
-
-    return {
-      owner: { name: owner.name, username: owner.username },
-      notes: notes.map((note) => ({ id: note.id, title: note.title })),
-    };
-  });
-
-if (error.value) throw createError(error.value);
-
-const { owner, notes } = data.value;
+  }
+};
 </script>

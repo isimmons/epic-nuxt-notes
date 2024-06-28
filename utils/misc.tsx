@@ -39,3 +39,39 @@ export function invariantResponse(
     );
   }
 }
+
+/**
+ * Check a value to see if it is not undefined or null
+ *
+ * @param value The value to check
+ *
+ * @example
+ * assertDefined(foo)
+ *
+ * @throws {Response} if the value is undefined or null
+ */
+export function assertDefined<Value>(
+  value: Value | null | undefined,
+): asserts value is Value {
+  if (value === undefined || value === null) {
+    throw new Response('Not found', { status: 404 });
+  }
+}
+
+/**
+ * Check a value to see if it is not undefined or null
+ *
+ * @param value The value to check
+ *
+ * @example
+ * assertDefined(foo)
+ *
+ * @throws {Error} if the value is undefined or null
+ */
+export function assertNotNot<Value>(
+  value: Value | null | undefined,
+): asserts value is Value {
+  if (value === undefined || value === null) {
+    throw new Error('Value is null or undefined', { cause: 'IDK' });
+  }
+}
