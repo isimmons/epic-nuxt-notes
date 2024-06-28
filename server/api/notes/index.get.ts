@@ -1,5 +1,5 @@
 import { db } from '~/utils/db.server';
-import { assertNotNot } from '~/utils/misc';
+// import { assertNotNot } from '~/utils/misc';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,7 +9,11 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    assertNotNot(owner);
+    if (!owner)
+      throw createError({
+        status: 404,
+        statusMessage: 'Owner not found.',
+      });
 
     const notes = db.note.findMany({
       where: {
