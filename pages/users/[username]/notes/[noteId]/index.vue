@@ -8,7 +8,7 @@
     </div>
 
     <FloatingToolbar>
-      <form @submit.prevent="emits('note-deleted', note.id)">
+      <form @submit.prevent="deleteNote()">
         <UiButton type="submit" variant="destructive">Delete</UiButton>
       </form>
       <UiButton as-child>
@@ -22,11 +22,10 @@
 import { assertNotNot } from '~/utils/misc';
 
 const emits = defineEmits<{
-  (e: 'note-deleted', id: string): void;
-  (e: 'deleted-note-unmounted'): void;
+  (e: 'note-deleted'): void;
 }>();
 
-onUnmounted(() => emits('deleted-note-unmounted'));
+onUnmounted(() => emits('note-deleted'));
 
 const {
   params: { noteId, username },
@@ -58,28 +57,22 @@ assertNotNot(data.value);
 
 const note = data.value;
 
-// const deleteNote = async () => {
-//   try {
-//     // await $fetch(`/api/notes/${noteId}`, {
-//     //   method: 'DELETE',
-//     // });
+const deleteNote = async () => {
+  try {
+    await $fetch(`/api/notes/${noteId}`, {
+      method: 'DELETE',
+    });
 
-//     db.note.delete({
-//       where: { id: { equals: noteId } },
-//     });
+    console.log('Note deleted successfully');
 
-//     console.log('Note deleted successfully');
-
-//     emits('note-deleted', noteId);
-
-//     await navigateTo(`/users/${username}/notes`);
-//   } catch (error) {
-//     const errorMessage = `Failed to delete todo: ${error}`;
-//     console.error(errorMessage);
-//     throw createError({
-//       statusCode: 500,
-//       statusMessage: errorMessage,
-//     });
-//   }
-// };
+    await navigateTo(`/users/${username}/notes`);
+  } catch (error) {
+    const errorMessage = `Failed to delete todo: ${error}`;
+    console.error(errorMessage);
+    throw createError({
+      statusCode: 500,
+      statusMessage: errorMessage,
+    });
+  }
+};
 </script>

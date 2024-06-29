@@ -33,10 +33,7 @@
       </div>
 
       <div class="relative col-span-3 bg-accent md:rounded-r-3xl">
-        <NuxtPage
-          @note-deleted="handleDeleteNote($event)"
-          @deleted-note-unmounted="() => refreshNuxtData()"
-        />
+        <NuxtPage @note-deleted="() => refreshNuxtData()" />
       </div>
     </div>
   </div>
@@ -58,75 +55,29 @@ if (typeof username !== 'string')
     statusMessage: 'Invalid username in request URL.',
   });
 
-type UserNotes = {
-  owner: {
-    name: string | null;
-    username: string;
-  };
-  notes: {
-    id: string;
-    title: string;
-  }[];
-};
-
-// const { data, error } = await useAsyncData(
-//   `user.${username}.notes`,
-//   async () => {
-//     const owner = db.user.findFirst({
-//       where: {
-//         username: { equals: username },
-//       },
-//     });
-
-//     if (!owner)
-//       throw createError({
-//         statusCode: 404,
-//         statusMessage: 'User not found.',
-//       });
-
-//     const notes = db.note.findMany({
-//       where: {
-//         owner: {
-//           username: { equals: username },
-//         },
-//       },
-//     });
-
-//     return {
-//       owner: { name: owner.name, username: owner.username },
-//       notes: notes.map((note) => ({ id: note.id, title: note.title })),
-//     };
-//   },
-// );
-
-// const { data } = await useFetch<UserNotes>('/api/notes', {
-//   method: 'GET',
-// });
-
 const { data } = await useAsyncData(`user.${username}.notes`, () =>
   $fetch('/api/notes'),
 );
 
 assertNotNot(data.value);
 const owner = data.value.owner;
-// const notes = data.value.notes;
 
-const handleDeleteNote = async (noteId: string) => {
-  try {
-    await $fetch(`/api/notes/${noteId}`, {
-      method: 'DELETE',
-    });
+// const handleDeleteNote = async (noteId: string) => {
+//   try {
+//     await $fetch(`/api/notes/${noteId}`, {
+//       method: 'DELETE',
+//     });
 
-    console.log('Note deleted successfully');
+//     console.log('Note deleted successfully');
 
-    await navigateTo(`/users/${username}/notes`);
-  } catch (error) {
-    const errorMessage = `Failed to delete todo: ${error}`;
-    console.error(errorMessage);
-    throw createError({
-      statusCode: 500,
-      statusMessage: errorMessage,
-    });
-  }
-};
+//     await navigateTo(`/users/${username}/notes`);
+//   } catch (error) {
+//     const errorMessage = `Failed to delete todo: ${error}`;
+//     console.error(errorMessage);
+//     throw createError({
+//       statusCode: 500,
+//       statusMessage: errorMessage,
+//     });
+//   }
+// };
 </script>
