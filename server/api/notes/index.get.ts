@@ -1,5 +1,4 @@
 import { db } from '~/utils/db.server';
-// import { assertNotNot } from '~/utils/misc';
 
 export default defineEventHandler(async (event) => {
   try {
