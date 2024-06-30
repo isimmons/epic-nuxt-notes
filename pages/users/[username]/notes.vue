@@ -61,23 +61,4 @@ const { data } = await useAsyncData(`user.${username}.notes`, () =>
 
 assertNotNot(data.value);
 const owner = data.value.owner;
-
-// const handleDeleteNote = async (noteId: string) => {
-//   try {
-//     await $fetch(`/api/notes/${noteId}`, {
-//       method: 'DELETE',
-//     });
-
-//     console.log('Note deleted successfully');
-
-//     await navigateTo(`/users/${username}/notes`);
-//   } catch (error) {
-//     const errorMessage = `Failed to delete todo: ${error}`;
-//     console.error(errorMessage);
-//     throw createError({
-//       statusCode: 500,
-//       statusMessage: errorMessage,
-//     });
-//   }
-// };
 </script>
