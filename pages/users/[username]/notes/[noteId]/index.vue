@@ -65,7 +65,7 @@ const deleteNote = async () => {
 
     console.log('Note deleted successfully');
 
-    await navigateTo(`/users/${username}/notes`);
+    await navigateTo(`/users/${username}/notes`, { replace: true });
   } catch (error) {
     const errorMessage = `Failed to delete todo: ${error}`;
     console.error(errorMessage);
